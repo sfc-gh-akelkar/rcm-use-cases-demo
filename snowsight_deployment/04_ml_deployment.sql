@@ -16,7 +16,7 @@ USE SCHEMA ML_MODELS;
 CREATE OR REPLACE PROCEDURE sp_calculate_denial_risk()
 RETURNS STRING
 LANGUAGE PYTHON
-RUNTIME_VERSION = '3.8'
+RUNTIME_VERSION = '3.11'
 PACKAGES = ('snowflake-snowpark-python', 'scikit-learn', 'pandas', 'numpy')
 HANDLER = 'calculate_risk'
 AS
