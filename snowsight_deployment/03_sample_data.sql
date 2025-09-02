@@ -14,15 +14,23 @@ USE SCHEMA RAW_DATA;
 
 -- Insert sample payers
 INSERT INTO payers (payer_id, payer_name, payer_type, avg_processing_time_days, historical_denial_rate, payment_terms, contact_info) 
-SELECT * FROM VALUES
-('PAY001', 'BlueCross BlueShield', 'Commercial', 14, 0.0680, 'Net 30', OBJECT_CONSTRUCT('phone', '1-800-555-0101', 'email', 'claims@bcbs.com')),
-('PAY002', 'Aetna', 'Commercial', 12, 0.0720, 'Net 30', OBJECT_CONSTRUCT('phone', '1-800-555-0102', 'email', 'claims@aetna.com')),
-('PAY003', 'Cigna', 'Commercial', 16, 0.0650, 'Net 45', OBJECT_CONSTRUCT('phone', '1-800-555-0103', 'email', 'claims@cigna.com')),
-('PAY004', 'Humana', 'Commercial', 18, 0.0780, 'Net 30', OBJECT_CONSTRUCT('phone', '1-800-555-0104', 'email', 'claims@humana.com')),
-('PAY005', 'UnitedHealthcare', 'Commercial', 10, 0.0590, 'Net 30', OBJECT_CONSTRUCT('phone', '1-800-555-0105', 'email', 'claims@uhc.com')),
-('PAY006', 'Medicare', 'Government', 21, 0.0450, 'Net 14', OBJECT_CONSTRUCT('phone', '1-800-555-0106', 'email', 'claims@medicare.gov')),
-('PAY007', 'Medicaid', 'Government', 28, 0.0850, 'Net 45', OBJECT_CONSTRUCT('phone', '1-800-555-0107', 'email', 'claims@medicaid.gov'))
-AS t(payer_id, payer_name, payer_type, avg_processing_time_days, historical_denial_rate, payment_terms, contact_info);
+SELECT 
+    payer_id, 
+    payer_name, 
+    payer_type, 
+    avg_processing_time_days, 
+    historical_denial_rate, 
+    payment_terms,
+    OBJECT_CONSTRUCT('phone', phone, 'email', email) as contact_info
+FROM VALUES
+('PAY001', 'BlueCross BlueShield', 'Commercial', 14, 0.0680, 'Net 30', '1-800-555-0101', 'claims@bcbs.com'),
+('PAY002', 'Aetna', 'Commercial', 12, 0.0720, 'Net 30', '1-800-555-0102', 'claims@aetna.com'),
+('PAY003', 'Cigna', 'Commercial', 16, 0.0650, 'Net 45', '1-800-555-0103', 'claims@cigna.com'),
+('PAY004', 'Humana', 'Commercial', 18, 0.0780, 'Net 30', '1-800-555-0104', 'claims@humana.com'),
+('PAY005', 'UnitedHealthcare', 'Commercial', 10, 0.0590, 'Net 30', '1-800-555-0105', 'claims@uhc.com'),
+('PAY006', 'Medicare', 'Government', 21, 0.0450, 'Net 14', '1-800-555-0106', 'claims@medicare.gov'),
+('PAY007', 'Medicaid', 'Government', 28, 0.0850, 'Net 45', '1-800-555-0107', 'claims@medicaid.gov')
+AS t(payer_id, payer_name, payer_type, avg_processing_time_days, historical_denial_rate, payment_terms, phone, email);
 
 -- Insert sample providers
 INSERT INTO providers (provider_id, provider_name, provider_type, specialty, npi, historical_denial_rate, volume_last_30_days, credentialing_status) VALUES
@@ -61,14 +69,12 @@ INSERT INTO claims_data (claim_id, patient_id, provider_id, payer_id, claim_amou
 ('CLM010', 'PAT010', 'PROV002', 'PAY006', 3200.00, '2024-11-24', '2024-11-25 12:30:00', 'I21.9', '93010', FALSE, NULL, 'PAID', NULL);
 
 -- Insert payer policies
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
-SELECT * FROM VALUES
-('POL001', 'PAY001', '27447', TRUE, ARRAY_CONSTRUCT('X-rays', 'MRI', 'Conservative Treatment Documentation'), OBJECT_CONSTRUCT('max_amount', 15000), '2024-01-01', '2024-12-31'),
-('POL002', 'PAY002', '93458', TRUE, ARRAY_CONSTRUCT('Stress Test', 'Echo', 'Clinical Notes'), OBJECT_CONSTRUCT('max_amount', 8000), '2024-01-01', '2024-12-31'),
-('POL003', 'PAY003', '74176', FALSE, ARRAY_CONSTRUCT('Clinical Indication'), OBJECT_CONSTRUCT('max_amount', 2500), '2024-01-01', '2024-12-31'),
-('POL004', 'PAY005', '47563', TRUE, ARRAY_CONSTRUCT('Ultrasound', 'HIDA Scan', 'Surgical Consultation'), OBJECT_CONSTRUCT('max_amount', 20000), '2024-01-01', '2024-12-31'),
-('POL005', 'PAY006', '99214', FALSE, ARRAY_CONSTRUCT(), OBJECT_CONSTRUCT('max_visits_per_year', 12), '2024-01-01', '2024-12-31')
-AS t(policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date);
+INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) VALUES
+('POL001', 'PAY001', '27447', TRUE, PARSE_JSON('["X-rays", "MRI", "Conservative Treatment Documentation"]'), PARSE_JSON('{"max_amount": 15000}'), '2024-01-01', '2024-12-31'),
+('POL002', 'PAY002', '93458', TRUE, PARSE_JSON('["Stress Test", "Echo", "Clinical Notes"]'), PARSE_JSON('{"max_amount": 8000}'), '2024-01-01', '2024-12-31'),
+('POL003', 'PAY003', '74176', FALSE, PARSE_JSON('["Clinical Indication"]'), PARSE_JSON('{"max_amount": 2500}'), '2024-01-01', '2024-12-31'),
+('POL004', 'PAY005', '47563', TRUE, PARSE_JSON('["Ultrasound", "HIDA Scan", "Surgical Consultation"]'), PARSE_JSON('{"max_amount": 20000}'), '2024-01-01', '2024-12-31'),
+('POL005', 'PAY006', '99214', FALSE, PARSE_JSON('[]'), PARSE_JSON('{"max_visits_per_year": 12}'), '2024-01-01', '2024-12-31');
 
 -- ===================================================================
 -- SAMPLE DATA - PROCESSED DATA TABLES
@@ -96,12 +102,10 @@ INSERT INTO high_risk_alerts (claim_id, risk_score, alert_type, priority_level, 
 ('CLM009', 0.445, 'DIAGNOSIS_REVIEW', 'MEDIUM', 'Cancer-related imaging may need additional clinical correlation', 'Clinical Review Team');
 
 -- Insert interventions
-INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
-SELECT * FROM VALUES
-('CLM003', 'EXPEDITE_PRIOR_AUTH', OBJECT_CONSTRUCT('action', 'Contact payer for expedited review', 'contact_method', 'phone'), 'ML Model v1.2.1', 'APPLIED', 'IN_PROGRESS'),
-('CLM005', 'REQUEST_DOCUMENTATION', OBJECT_CONSTRUCT('action', 'Request missing radiology report from provider', 'documents_needed', 'Clinical indication, comparison studies'), 'ML Model v1.2.1', 'APPLIED', 'COMPLETED'),
-('CLM009', 'CLINICAL_REVIEW', OBJECT_CONSTRUCT('action', 'Route to clinical team for medical necessity review', 'reviewer', 'Dr. Smith'), 'ML Model v1.2.1', 'PENDING', NULL)
-AS t(claim_id, intervention_type, intervention_details, recommended_by, status, outcome);
+INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) VALUES
+('CLM003', 'EXPEDITE_PRIOR_AUTH', PARSE_JSON('{"action": "Contact payer for expedited review", "contact_method": "phone"}'), 'ML Model v1.2.1', 'APPLIED', 'IN_PROGRESS'),
+('CLM005', 'REQUEST_DOCUMENTATION', PARSE_JSON('{"action": "Request missing radiology report from provider", "documents_needed": "Clinical indication, comparison studies"}'), 'ML Model v1.2.1', 'APPLIED', 'COMPLETED'),
+('CLM009', 'CLINICAL_REVIEW', PARSE_JSON('{"action": "Route to clinical team for medical necessity review", "reviewer": "Dr. Smith"}'), 'ML Model v1.2.1', 'PENDING', NULL);
 
 -- ===================================================================
 -- SAMPLE DATA - ENHANCED ANALYTICS TABLES
