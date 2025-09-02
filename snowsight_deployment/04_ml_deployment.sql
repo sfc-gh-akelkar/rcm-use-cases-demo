@@ -281,8 +281,8 @@ GROUP BY pr.provider_name, pr.specialty, pr.historical_denial_rate;
 -- ===================================================================
 
 -- Resume tasks (they start as suspended)
-ALTER TASK task_process_claims RESUME;
-ALTER TASK task_send_alerts RESUME;
+ALTER TASK ML_MODELS.task_process_claims RESUME;
+ALTER TASK ML_MODELS.task_send_alerts RESUME;
 
 -- ===================================================================
 -- VERIFICATION
