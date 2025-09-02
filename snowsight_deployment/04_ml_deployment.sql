@@ -218,7 +218,7 @@ AS
 -- Task to send alerts every 15 minutes
 CREATE OR REPLACE TASK task_send_alerts
     WAREHOUSE = REALTIME_PROCESSING_WH
-    SCHEDULE = '15 MINUTE'
+    --SCHEDULE = '15 MINUTE'
     AFTER task_process_claims
 AS
     CALL sp_send_risk_alerts();
