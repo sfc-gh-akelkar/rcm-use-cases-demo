@@ -54,7 +54,7 @@ This guide provides a streamlined deployment process using Snowsight worksheets.
 ## ✅ Verification
 
 After deployment, verify:
-- [ ] Database `QUADAX_DENIAL_PREVENTION` exists
+- [ ] Database `RCM_DENIAL_PREVENTION` exists
 - [ ] All 17 tables created successfully
 - [ ] Sample data loaded (check record counts)
 - [ ] ML models registered in model registry

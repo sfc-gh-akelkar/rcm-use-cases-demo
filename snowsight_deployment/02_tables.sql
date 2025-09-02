@@ -3,7 +3,7 @@
 -- Run this second in Snowsight (after 01_setup.sql)
 -- ===================================================================
 
-USE DATABASE QUADAX_DENIAL_PREVENTION;
+USE DATABASE RCM_DENIAL_PREVENTION;
 USE WAREHOUSE ANALYTICS_WH;
 
 -- ===================================================================
@@ -311,7 +311,7 @@ SELECT
     SCHEMA_NAME,
     COUNT(*) as TABLE_COUNT
 FROM INFORMATION_SCHEMA.TABLES 
-WHERE TABLE_CATALOG = 'QUADAX_DENIAL_PREVENTION'
+WHERE TABLE_CATALOG = 'RCM_DENIAL_PREVENTION'
     AND TABLE_SCHEMA IN ('RAW_DATA', 'PROCESSED_DATA', 'ANALYTICS')
 GROUP BY SCHEMA_NAME
 ORDER BY SCHEMA_NAME;

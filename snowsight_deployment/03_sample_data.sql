@@ -3,7 +3,7 @@
 -- Run this third in Snowsight (after 02_tables.sql)
 -- ===================================================================
 
-USE DATABASE QUADAX_DENIAL_PREVENTION;
+USE DATABASE RCM_DENIAL_PREVENTION;
 USE WAREHOUSE ANALYTICS_WH;
 
 -- ===================================================================

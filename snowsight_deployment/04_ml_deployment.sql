@@ -3,7 +3,7 @@
 -- Run this fourth in Snowsight (after 03_sample_data.sql)
 -- ===================================================================
 
-USE DATABASE QUADAX_DENIAL_PREVENTION;
+USE DATABASE RCM_DENIAL_PREVENTION;
 USE WAREHOUSE ML_TRAINING_WH;
 
 -- ===================================================================
@@ -292,7 +292,7 @@ ALTER TASK task_send_alerts RESUME;
 SHOW PROCEDURES IN SCHEMA ML_MODELS;
 
 -- Show created tasks
-SHOW TASKS IN DATABASE QUADAX_DENIAL_PREVENTION;
+SHOW TASKS IN DATABASE RCM_DENIAL_PREVENTION;
 
 -- Show created views
 SHOW VIEWS IN SCHEMA ANALYTICS;

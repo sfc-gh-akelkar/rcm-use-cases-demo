@@ -48,7 +48,7 @@ A comprehensive RCM analytics platform featuring:
 
 ## 🏗️ Architecture
 
-- **Database**: `QUADAX_DENIAL_PREVENTION` with 17 tables
+- **Database**: `RCM_DENIAL_PREVENTION` with 17 tables
 - **Compute**: 3 auto-scaling warehouses
 - **ML**: Snowpark ML with automated processing
 - **UI**: Native Streamlit in Snowflake application
