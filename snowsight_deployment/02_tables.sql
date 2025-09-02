@@ -318,4 +318,26 @@ WHERE TABLE_CATALOG = CURRENT_DATABASE()
 GROUP BY TABLE_SCHEMA
 ORDER BY TABLE_SCHEMA;
 
+-- List all created tables by schema
+SELECT 
+    TABLE_SCHEMA,
+    TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_CATALOG = CURRENT_DATABASE()
+    AND TABLE_SCHEMA IN ('RAW_DATA', 'PROCESSED_DATA', 'ANALYTICS')
+ORDER BY TABLE_SCHEMA, TABLE_NAME;
+
+-- Specific check for collections_performance table
+SELECT 
+    CASE 
+        WHEN EXISTS (
+            SELECT 1 FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_CATALOG = CURRENT_DATABASE()
+                AND TABLE_SCHEMA = 'ANALYTICS' 
+                AND TABLE_NAME = 'COLLECTIONS_PERFORMANCE'
+        ) 
+        THEN 'collections_performance table EXISTS in ANALYTICS schema' 
+        ELSE 'collections_performance table NOT FOUND in ANALYTICS schema' 
+    END as collections_performance_status;
+
 SELECT 'All tables created successfully!' as STATUS;

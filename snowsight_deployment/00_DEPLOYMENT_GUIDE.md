@@ -70,9 +70,40 @@ After deployment, verify:
 
 ---
 
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### "Table does not exist or not authorized" Errors
+**Cause:** Scripts run out of order or table creation failed
+**Solution:**
+1. **Re-run 02_tables.sql** - Always run this before 03_sample_data.sql
+2. **Check verification output** - 02_tables.sql includes verification queries that show:
+   - Count of tables per schema
+   - List of all created tables
+   - Specific check for collections_performance table
+3. **Verify schema context** - Ensure you're in the correct database (`RCM_DENIAL_PREVENTION`)
+
+#### "SQL compilation error: Invalid expression in VALUES clause"
+**Cause:** Snowflake doesn't support complex functions in VALUES clauses
+**Solution:** Already fixed - we use individual INSERT...SELECT statements
+
+#### Missing Privileges
+**Cause:** Insufficient database/schema permissions
+**Solution:** Ensure ACCOUNTADMIN or CREATE privileges on database/schemas
+
+### Debugging Steps
+1. **Check current database**: `SELECT CURRENT_DATABASE();`
+2. **List schemas**: `SHOW SCHEMAS;`
+3. **List tables in schema**: `SHOW TABLES IN SCHEMA ANALYTICS;`
+4. **Verify table exists**: Run the verification queries from 02_tables.sql
+
+---
+
 ## 📞 Support
 
 If you encounter issues:
 1. Check that all prerequisite privileges are granted
 2. Ensure Streamlit in Snowflake is enabled
-3. Verify all SQL scripts run without errors before proceeding to next step
+3. **Always run scripts in order: 01_setup.sql → 02_tables.sql → 03_sample_data.sql → 04_ml_deployment.sql**
+4. Use the verification queries in each script to confirm successful execution
