@@ -13,7 +13,7 @@ USE WAREHOUSE ANALYTICS_WH;
 USE SCHEMA RAW_DATA;
 
 -- Insert sample payers
-INSERT INTO payers (payer_id, payer_name, payer_type, avg_processing_time_days, historical_denial_rate, payment_terms, contact_info) 
+INSERT INTO RAW_DATA.payers (payer_id, payer_name, payer_type, avg_processing_time_days, historical_denial_rate, payment_terms, contact_info) 
 SELECT 
     payer_id, 
     payer_name, 
@@ -33,7 +33,7 @@ FROM VALUES
 AS t(payer_id, payer_name, payer_type, avg_processing_time_days, historical_denial_rate, payment_terms, phone, email);
 
 -- Insert sample providers
-INSERT INTO providers (provider_id, provider_name, provider_type, specialty, npi, historical_denial_rate, volume_last_30_days, credentialing_status) VALUES
+INSERT INTO RAW_DATA.providers (provider_id, provider_name, provider_type, specialty, npi, historical_denial_rate, volume_last_30_days, credentialing_status) VALUES
 ('PROV001', 'Metro General Hospital', 'Hospital', 'Multi-Specialty', '1234567890', 0.0520, 1250, 'Active'),
 ('PROV002', 'City Medical Center', 'Hospital', 'Multi-Specialty', '1234567891', 0.0680, 980, 'Active'),
 ('PROV003', 'Advanced Orthopedic Specialists', 'Clinic', 'Orthopedics', '1234567892', 0.0450, 450, 'Active'),
@@ -43,38 +43,38 @@ INSERT INTO providers (provider_id, provider_name, provider_type, specialty, npi
 ('PROV007', 'Community Lab Services', 'Laboratory', 'Laboratory', '1234567896', 0.0280, 1100, 'Active');
 
 -- Insert sample patients (using individual INSERT statements to avoid VALUES clause limitations)
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT001', 45, 'Female', '10001', 'Commercial', ARRAY_CONSTRUCT('Diabetes', 'Hypertension'), 2;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT002', 67, 'Male', '10002', 'Medicare', ARRAY_CONSTRUCT('COPD', 'Heart Disease'), 1;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT003', 34, 'Female', '10003', 'Commercial', ARRAY_CONSTRUCT(), 0;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT004', 28, 'Male', '10004', 'Commercial', ARRAY_CONSTRUCT('Asthma'), 1;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT005', 52, 'Female', '10005', 'Commercial', ARRAY_CONSTRUCT('Arthritis', 'Depression'), 3;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT006', 71, 'Male', '10006', 'Medicare', ARRAY_CONSTRUCT('Diabetes', 'Kidney Disease'), 2;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT007', 39, 'Female', '10007', 'Medicaid', ARRAY_CONSTRUCT('Anxiety'), 4;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT008', 25, 'Male', '10008', 'Commercial', ARRAY_CONSTRUCT(), 0;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT009', 58, 'Female', '10009', 'Commercial', ARRAY_CONSTRUCT('Cancer History'), 1;
 
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+INSERT INTO RAW_DATA.patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
 SELECT 'PAT010', 63, 'Male', '10010', 'Medicare', ARRAY_CONSTRUCT('Heart Disease', 'Diabetes'), 2;
 
 -- Insert sample claims
-INSERT INTO claims_data (claim_id, patient_id, provider_id, payer_id, claim_amount, service_date, submission_date, diagnosis_code, procedure_code, prior_auth_required, prior_auth_status, claim_status, denial_reason) VALUES
+INSERT INTO RAW_DATA.claims_data (claim_id, patient_id, provider_id, payer_id, claim_amount, service_date, submission_date, diagnosis_code, procedure_code, prior_auth_required, prior_auth_status, claim_status, denial_reason) VALUES
 ('CLM001', 'PAT001', 'PROV001', 'PAY001', 2500.00, '2024-11-15', '2024-11-16 09:30:00', 'E11.9', '99214', TRUE, 'APPROVED', 'SUBMITTED', NULL),
 ('CLM002', 'PAT002', 'PROV002', 'PAY006', 1200.00, '2024-11-16', '2024-11-17 14:20:00', 'J44.1', '94010', FALSE, NULL, 'PAID', NULL),
 ('CLM003', 'PAT003', 'PROV003', 'PAY002', 8500.00, '2024-11-17', '2024-11-18 11:45:00', 'M17.11', '27447', TRUE, 'PENDING', 'SUBMITTED', NULL),
@@ -87,19 +87,19 @@ INSERT INTO claims_data (claim_id, patient_id, provider_id, payer_id, claim_amou
 ('CLM010', 'PAT010', 'PROV002', 'PAY006', 3200.00, '2024-11-24', '2024-11-25 12:30:00', 'I21.9', '93010', FALSE, NULL, 'PAID', NULL);
 
 -- Insert payer policies (using individual INSERT statements to avoid VALUES clause limitations)
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+INSERT INTO RAW_DATA.payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
 SELECT 'POL001', 'PAY001', '27447', TRUE, ARRAY_CONSTRUCT('X-rays', 'MRI', 'Conservative Treatment Documentation'), OBJECT_CONSTRUCT('max_amount', 15000), '2024-01-01', '2024-12-31';
 
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+INSERT INTO RAW_DATA.payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
 SELECT 'POL002', 'PAY002', '93458', TRUE, ARRAY_CONSTRUCT('Stress Test', 'Echo', 'Clinical Notes'), OBJECT_CONSTRUCT('max_amount', 8000), '2024-01-01', '2024-12-31';
 
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+INSERT INTO RAW_DATA.payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
 SELECT 'POL003', 'PAY003', '74176', FALSE, ARRAY_CONSTRUCT('Clinical Indication'), OBJECT_CONSTRUCT('max_amount', 2500), '2024-01-01', '2024-12-31';
 
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+INSERT INTO RAW_DATA.payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
 SELECT 'POL004', 'PAY005', '47563', TRUE, ARRAY_CONSTRUCT('Ultrasound', 'HIDA Scan', 'Surgical Consultation'), OBJECT_CONSTRUCT('max_amount', 20000), '2024-01-01', '2024-12-31';
 
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+INSERT INTO RAW_DATA.payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
 SELECT 'POL005', 'PAY006', '99214', FALSE, ARRAY_CONSTRUCT(), OBJECT_CONSTRUCT('max_visits_per_year', 12), '2024-01-01', '2024-12-31';
 
 -- ===================================================================
@@ -236,6 +236,8 @@ UNION ALL
 SELECT 'Providers: ' || COUNT(*) FROM RAW_DATA.providers
 UNION ALL
 SELECT 'Payers: ' || COUNT(*) FROM RAW_DATA.payers
+UNION ALL
+SELECT 'Payer Policies: ' || COUNT(*) FROM RAW_DATA.payer_policies
 UNION ALL
 SELECT 'Risk Scores: ' || COUNT(*) FROM PROCESSED_DATA.claim_risk_scores
 UNION ALL
