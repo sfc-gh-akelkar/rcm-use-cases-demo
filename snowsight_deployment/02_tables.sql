@@ -128,6 +128,14 @@ CREATE OR REPLACE TABLE claim_interventions (
     completed_timestamp TIMESTAMP_NTZ
 );
 
+
+
+-- ===================================================================
+-- ANALYTICS TABLES
+-- ===================================================================
+
+USE SCHEMA ANALYTICS;
+
 -- Collections performance data
 CREATE OR REPLACE TABLE collections_performance (
     collection_id STRING DEFAULT UUID_STRING() PRIMARY KEY,
@@ -143,12 +151,6 @@ CREATE OR REPLACE TABLE collections_performance (
     estimated_recovery_amount NUMBER(12,2),
     created_timestamp TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP()
 );
-
--- ===================================================================
--- ANALYTICS TABLES
--- ===================================================================
-
-USE SCHEMA ANALYTICS;
 
 -- Contract scenarios and simulations
 CREATE OR REPLACE TABLE contract_scenarios (
