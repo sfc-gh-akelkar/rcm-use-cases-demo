@@ -1,4 +1,4 @@
-# Quadax RCM Platform - Snowsight Deployment Guide
+# RCM Analytics Platform - Snowsight Deployment Guide
 
 ## 🚀 Quick Deployment in Snowsight
 
@@ -45,7 +45,7 @@ This guide provides a streamlined deployment process using Snowsight worksheets.
 ### Step 5: Streamlit App
 1. Go to **Streamlit** in Snowsight
 2. Click **+ Streamlit App**
-3. Name: `Quadax RCM Analytics Platform`
+3. Name: `RCM Analytics Platform`
 4. Upload or copy contents of `streamlit_app.py`
 5. Click **Create**
 

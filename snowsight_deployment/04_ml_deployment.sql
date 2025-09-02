@@ -1,5 +1,5 @@
 -- ===================================================================
--- Quadax Real-Time Denial Prevention Engine - ML Model Deployment
+-- RCM Real-Time Denial Prevention Engine - ML Model Deployment
 -- Run this fourth in Snowsight (after 03_sample_data.sql)
 -- ===================================================================
 

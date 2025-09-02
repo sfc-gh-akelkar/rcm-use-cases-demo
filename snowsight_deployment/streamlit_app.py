@@ -1,5 +1,5 @@
 """
-Quadax Real-Time Denial Prevention Engine
+RCM Real-Time Denial Prevention Engine
 Streamlit in Snowflake Application - Complete RCM Analytics Platform
 Deploy this as a Streamlit in Snowflake app
 """
@@ -21,7 +21,7 @@ import time
 # ===================================================================
 
 st.set_page_config(
-    page_title="Quadax iQ - Complete RCM Analytics Platform",
+    page_title="RCM Analytics Platform - Complete Solution",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -440,8 +440,8 @@ def display_ma_integration_module():
 # Header
 st.markdown("""
 <div class="main-header">
-    <h1>🏥 Quadax iQ - Complete RCM Analytics Platform</h1>
-    <p>Intelligence by Quadax | Comprehensive Revenue Cycle Management & Analytics</p>
+    <h1>🏥 RCM Analytics Platform - Complete Solution</h1>
+    <p>Advanced Intelligence | Comprehensive Revenue Cycle Management & Analytics</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -526,8 +526,8 @@ with st.expander("🔧 System Status & Health", expanded=False):
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 2rem;">
-    <p><strong>Quadax iQ - Complete RCM Analytics Platform</strong></p>
-    <p>Powered by Snowflake | Built with Streamlit | © 2024 Quadax, Inc.</p>
+    <p><strong>RCM Analytics Platform - Complete Solution</strong></p>
+    <p>Powered by Snowflake | Built with Streamlit</p>
     <p>🔒 Enterprise Security | 📊 Real-Time Analytics | 🤖 AI-Powered Insights</p>
 </div>
 """, unsafe_allow_html=True)

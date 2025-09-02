@@ -1,4 +1,4 @@
-# Quadax RCM Analytics Platform
+# RCM Analytics Platform
 
 **Complete Revenue Cycle Management solution built on Snowflake with Streamlit**
 
@@ -44,7 +44,7 @@ A comprehensive RCM analytics platform featuring:
 - **Workforce Analytics**: 20-30% productivity improvement
 - **M&A Integration**: $3-8M synergy realization potential
 
-*See `Quadax_Strategic_Analysis_and_Snowflake_Roadmap.md` for detailed methodology and assumptions.*
+*See `RCM_Strategic_Analysis_and_Snowflake_Roadmap.md` for detailed methodology and assumptions.*
 
 ## 🏗️ Architecture
 
@@ -58,7 +58,7 @@ A comprehensive RCM analytics platform featuring:
 
 ```
 ├── README.md                           # This file
-├── Quadax_Strategic_Analysis_and_Snowflake_Roadmap.md  # Complete strategy
+├── RCM_Strategic_Analysis_and_Snowflake_Roadmap.md     # Complete strategy
 └── snowsight_deployment/               # Deployment files
     ├── 00_DEPLOYMENT_GUIDE.md         # Step-by-step instructions
     ├── 01_setup.sql                   # Database & warehouses
@@ -108,4 +108,4 @@ Follow the detailed deployment guide in `snowsight_deployment/00_DEPLOYMENT_GUID
 
 ---
 
-**© 2024 Quadax, Inc. | Powered by Snowflake | Built with Streamlit**
+**Powered by Snowflake | Built with Streamlit**

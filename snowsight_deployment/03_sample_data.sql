@@ -1,5 +1,5 @@
 -- ===================================================================
--- Quadax Real-Time Denial Prevention Engine - Sample Data
+-- RCM Real-Time Denial Prevention Engine - Sample Data
 -- Run this third in Snowsight (after 02_tables.sql)
 -- ===================================================================
 

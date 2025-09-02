@@ -1,5 +1,5 @@
 -- ===================================================================
--- Quadax Real-Time Denial Prevention Engine - Table Creation
+-- RCM Real-Time Denial Prevention Engine - Table Creation
 -- Run this second in Snowsight (after 01_setup.sql)
 -- ===================================================================
 

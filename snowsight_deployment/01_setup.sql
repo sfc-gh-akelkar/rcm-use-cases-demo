@@ -1,5 +1,5 @@
 -- ===================================================================
--- Quadax Real-Time Denial Prevention Engine - Database Setup
+-- RCM Real-Time Denial Prevention Engine - Database Setup
 -- Run this first in Snowsight
 -- ===================================================================
 
