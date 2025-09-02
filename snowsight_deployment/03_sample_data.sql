@@ -140,19 +140,19 @@ INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk
 SELECT 'CLM010', 0.167, ARRAY_CONSTRUCT('Emergency', 'Medicare'), 0.9234, 'v1.2.1', FALSE, 0.00;
 
 -- Insert high-risk alerts
-INSERT INTO high_risk_alerts (claim_id, risk_score, alert_type, priority_level, alert_message, assigned_to) VALUES
+INSERT INTO PROCESSED_DATA.high_risk_alerts (claim_id, risk_score, alert_type, priority_level, alert_message, assigned_to) VALUES
 ('CLM003', 0.678, 'PRIOR_AUTH_PENDING', 'HIGH', 'High-value orthopedic procedure with pending prior authorization', 'Prior Auth Team'),
 ('CLM005', 0.892, 'DOCUMENTATION_MISSING', 'CRITICAL', 'Imaging claim missing required documentation - high denial risk', 'Documentation Team'),
 ('CLM009', 0.445, 'DIAGNOSIS_REVIEW', 'MEDIUM', 'Cancer-related imaging may need additional clinical correlation', 'Clinical Review Team');
 
 -- Insert interventions (using individual INSERT statements to avoid VALUES clause limitations)
-INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
+INSERT INTO PROCESSED_DATA.claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
 SELECT 'CLM003', 'EXPEDITE_PRIOR_AUTH', OBJECT_CONSTRUCT('action', 'Contact payer for expedited review', 'contact_method', 'phone'), 'ML Model v1.2.1', 'APPLIED', 'IN_PROGRESS';
 
-INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
+INSERT INTO PROCESSED_DATA.claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
 SELECT 'CLM005', 'REQUEST_DOCUMENTATION', OBJECT_CONSTRUCT('action', 'Request missing radiology report from provider', 'documents_needed', 'Clinical indication, comparison studies'), 'ML Model v1.2.1', 'APPLIED', 'COMPLETED';
 
-INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
+INSERT INTO PROCESSED_DATA.claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
 SELECT 'CLM009', 'CLINICAL_REVIEW', OBJECT_CONSTRUCT('action', 'Route to clinical team for medical necessity review', 'reviewer', 'Dr. Smith'), 'ML Model v1.2.1', 'PENDING', NULL;
 
 -- ===================================================================
@@ -162,7 +162,7 @@ SELECT 'CLM009', 'CLINICAL_REVIEW', OBJECT_CONSTRUCT('action', 'Route to clinica
 USE SCHEMA ANALYTICS;
 
 -- Collections performance data
-INSERT INTO collections_performance (
+INSERT INTO ANALYTICS.collections_performance (
     patient_id, outstanding_balance, days_outstanding, payment_probability,
     recommended_strategy, collection_attempts, last_contact_date, 
     payment_plan_eligible, estimated_recovery_amount
@@ -174,7 +174,7 @@ INSERT INTO collections_performance (
 ('PAT005', 750.00, 15, 0.92, 'Digital Only', 1, '2024-12-01', FALSE, 690.00);
 
 -- Contract scenarios
-INSERT INTO contract_scenarios (
+INSERT INTO ANALYTICS.contract_scenarios (
     scenario_name, payer_id, contract_type, base_reimbursement_rate,
     quality_bonus_percentage, risk_adjustment_factor, estimated_annual_volume,
     projected_revenue_impact, risk_level, implementation_date, created_by
@@ -184,7 +184,7 @@ INSERT INTO contract_scenarios (
 ('Aetna Premium Network', 'PAY002', 'Fee-for-Service', 115.25, 5.0, 1.0150, 1800, 275400.00, 'Low', '2025-02-01', 'Contract Team');
 
 -- Workforce productivity
-INSERT INTO workforce_productivity (
+INSERT INTO ANALYTICS.workforce_productivity (
     employee_id, employee_name, department, role_title, claims_processed_daily,
     accuracy_rate, processing_time_avg_minutes, productivity_score,
     training_hours_completed, performance_trend, last_evaluation_date, manager_feedback
@@ -194,7 +194,7 @@ INSERT INTO workforce_productivity (
 ('EMP003', 'Lisa Kim', 'Claims Processing', 'Lead Claims Specialist', 198, 0.9910, 7.5, 95.2, 32.0, 'Excellent', '2024-11-20', 'Top performer');
 
 -- Process bottlenecks
-INSERT INTO process_bottlenecks (
+INSERT INTO ANALYTICS.process_bottlenecks (
     process_step, department, avg_processing_time_minutes, bottleneck_score,
     volume_processed_daily, error_rate, improvement_opportunity,
     recommended_action, estimated_time_savings, implementation_effort
@@ -204,7 +204,7 @@ INSERT INTO process_bottlenecks (
 ('Payment Follow-up', 'Collections', 15.8, 7, 600, 0.0280, 'High', 'Predictive payment alerts', 5.2, 'Medium');
 
 -- Entity performance
-INSERT INTO entity_performance (
+INSERT INTO ANALYTICS.entity_performance (
     entity_name, entity_type, acquisition_date, integration_status,
     data_migration_percentage, ytd_revenue, denial_rate, collection_rate,
     staff_count, optimization_potential, integration_complexity,
@@ -216,7 +216,7 @@ INSERT INTO entity_performance (
  ARRAY_CONSTRUCT('Process Optimization', 'Staff Training'), 850000.00, 'ORG001');
 
 -- Synergy tracking
-INSERT INTO synergy_tracking (
+INSERT INTO ANALYTICS.synergy_tracking (
     entity_id, synergy_type, description, estimated_savings, actual_savings,
     implementation_status, start_date, target_completion_date,
     implementation_effort, roi_percentage, responsible_team, progress_notes
