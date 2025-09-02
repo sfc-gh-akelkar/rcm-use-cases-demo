@@ -209,11 +209,18 @@ INSERT INTO ANALYTICS.entity_performance (
     data_migration_percentage, ytd_revenue, denial_rate, collection_rate,
     staff_count, optimization_potential, integration_complexity,
     synergy_opportunities, estimated_synergy_value, parent_organization_id
-) VALUES
-('Metro General Hospital', 'Hospital', '2022-06-15', 'Complete', 100.00, 45200000.00, 0.0520, 0.8650, 450, 'Low', 'Low', 
- ARRAY_CONSTRUCT('Workflow Standardization', 'Technology Upgrade'), 1200000.00, 'ORG001'),
-('Westside Family Clinic', 'Clinic', '2023-03-20', 'In Progress', 75.00, 8700000.00, 0.0810, 0.7920, 85, 'Medium', 'Medium',
- ARRAY_CONSTRUCT('Process Optimization', 'Staff Training'), 850000.00, 'ORG001');
+) 
+SELECT 'Metro General Hospital', 'Hospital', '2022-06-15', 'Complete', 100.00, 45200000.00, 0.0520, 0.8650, 450, 'Low', 'Low', 
+       ARRAY_CONSTRUCT('Workflow Standardization', 'Technology Upgrade'), 1200000.00, 'ORG001';
+
+INSERT INTO ANALYTICS.entity_performance (
+    entity_name, entity_type, acquisition_date, integration_status,
+    data_migration_percentage, ytd_revenue, denial_rate, collection_rate,
+    staff_count, optimization_potential, integration_complexity,
+    synergy_opportunities, estimated_synergy_value, parent_organization_id
+) 
+SELECT 'Westside Family Clinic', 'Clinic', '2023-03-20', 'In Progress', 75.00, 8700000.00, 0.0810, 0.7920, 85, 'Medium', 'Medium',
+       ARRAY_CONSTRUCT('Process Optimization', 'Staff Training'), 850000.00, 'ORG001';
 
 -- Synergy tracking
 INSERT INTO ANALYTICS.synergy_tracking (
