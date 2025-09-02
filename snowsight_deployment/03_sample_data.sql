@@ -42,18 +42,36 @@ INSERT INTO providers (provider_id, provider_name, provider_type, specialty, npi
 ('PROV006', 'Westside Surgery Center', 'Surgery Center', 'Surgery', '1234567895', 0.0580, 320, 'Active'),
 ('PROV007', 'Community Lab Services', 'Laboratory', 'Laboratory', '1234567896', 0.0280, 1100, 'Active');
 
--- Insert sample patients
-INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) VALUES
-('PAT001', 45, 'Female', '10001', 'Commercial', ARRAY_CONSTRUCT('Diabetes', 'Hypertension'), 2),
-('PAT002', 67, 'Male', '10002', 'Medicare', ARRAY_CONSTRUCT('COPD', 'Heart Disease'), 1),
-('PAT003', 34, 'Female', '10003', 'Commercial', ARRAY_CONSTRUCT(), 0),
-('PAT004', 28, 'Male', '10004', 'Commercial', ARRAY_CONSTRUCT('Asthma'), 1),
-('PAT005', 52, 'Female', '10005', 'Commercial', ARRAY_CONSTRUCT('Arthritis', 'Depression'), 3),
-('PAT006', 71, 'Male', '10006', 'Medicare', ARRAY_CONSTRUCT('Diabetes', 'Kidney Disease'), 2),
-('PAT007', 39, 'Female', '10007', 'Medicaid', ARRAY_CONSTRUCT('Anxiety'), 4),
-('PAT008', 25, 'Male', '10008', 'Commercial', ARRAY_CONSTRUCT(), 0),
-('PAT009', 58, 'Female', '10009', 'Commercial', ARRAY_CONSTRUCT('Cancer History'), 1),
-('PAT010', 63, 'Male', '10010', 'Medicare', ARRAY_CONSTRUCT('Heart Disease', 'Diabetes'), 2);
+-- Insert sample patients (using individual INSERT statements to avoid VALUES clause limitations)
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT001', 45, 'Female', '10001', 'Commercial', ARRAY_CONSTRUCT('Diabetes', 'Hypertension'), 2;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT002', 67, 'Male', '10002', 'Medicare', ARRAY_CONSTRUCT('COPD', 'Heart Disease'), 1;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT003', 34, 'Female', '10003', 'Commercial', ARRAY_CONSTRUCT(), 0;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT004', 28, 'Male', '10004', 'Commercial', ARRAY_CONSTRUCT('Asthma'), 1;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT005', 52, 'Female', '10005', 'Commercial', ARRAY_CONSTRUCT('Arthritis', 'Depression'), 3;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT006', 71, 'Male', '10006', 'Medicare', ARRAY_CONSTRUCT('Diabetes', 'Kidney Disease'), 2;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT007', 39, 'Female', '10007', 'Medicaid', ARRAY_CONSTRUCT('Anxiety'), 4;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT008', 25, 'Male', '10008', 'Commercial', ARRAY_CONSTRUCT(), 0;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT009', 58, 'Female', '10009', 'Commercial', ARRAY_CONSTRUCT('Cancer History'), 1;
+
+INSERT INTO patients (patient_id, age, gender, zip_code, insurance_type, chronic_conditions, previous_denials) 
+SELECT 'PAT010', 63, 'Male', '10010', 'Medicare', ARRAY_CONSTRUCT('Heart Disease', 'Diabetes'), 2;
 
 -- Insert sample claims
 INSERT INTO claims_data (claim_id, patient_id, provider_id, payer_id, claim_amount, service_date, submission_date, diagnosis_code, procedure_code, prior_auth_required, prior_auth_status, claim_status, denial_reason) VALUES
@@ -68,13 +86,21 @@ INSERT INTO claims_data (claim_id, patient_id, provider_id, payer_id, claim_amou
 ('CLM009', 'PAT009', 'PROV005', 'PAY002', 950.00, '2024-11-23', '2024-11-24 15:10:00', 'C78.00', '71250', FALSE, NULL, 'SUBMITTED', NULL),
 ('CLM010', 'PAT010', 'PROV002', 'PAY006', 3200.00, '2024-11-24', '2024-11-25 12:30:00', 'I21.9', '93010', FALSE, NULL, 'PAID', NULL);
 
--- Insert payer policies
-INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) VALUES
-('POL001', 'PAY001', '27447', TRUE, PARSE_JSON('["X-rays", "MRI", "Conservative Treatment Documentation"]'), PARSE_JSON('{"max_amount": 15000}'), '2024-01-01', '2024-12-31'),
-('POL002', 'PAY002', '93458', TRUE, PARSE_JSON('["Stress Test", "Echo", "Clinical Notes"]'), PARSE_JSON('{"max_amount": 8000}'), '2024-01-01', '2024-12-31'),
-('POL003', 'PAY003', '74176', FALSE, PARSE_JSON('["Clinical Indication"]'), PARSE_JSON('{"max_amount": 2500}'), '2024-01-01', '2024-12-31'),
-('POL004', 'PAY005', '47563', TRUE, PARSE_JSON('["Ultrasound", "HIDA Scan", "Surgical Consultation"]'), PARSE_JSON('{"max_amount": 20000}'), '2024-01-01', '2024-12-31'),
-('POL005', 'PAY006', '99214', FALSE, PARSE_JSON('[]'), PARSE_JSON('{"max_visits_per_year": 12}'), '2024-01-01', '2024-12-31');
+-- Insert payer policies (using individual INSERT statements to avoid VALUES clause limitations)
+INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+SELECT 'POL001', 'PAY001', '27447', TRUE, ARRAY_CONSTRUCT('X-rays', 'MRI', 'Conservative Treatment Documentation'), OBJECT_CONSTRUCT('max_amount', 15000), '2024-01-01', '2024-12-31';
+
+INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+SELECT 'POL002', 'PAY002', '93458', TRUE, ARRAY_CONSTRUCT('Stress Test', 'Echo', 'Clinical Notes'), OBJECT_CONSTRUCT('max_amount', 8000), '2024-01-01', '2024-12-31';
+
+INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+SELECT 'POL003', 'PAY003', '74176', FALSE, ARRAY_CONSTRUCT('Clinical Indication'), OBJECT_CONSTRUCT('max_amount', 2500), '2024-01-01', '2024-12-31';
+
+INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+SELECT 'POL004', 'PAY005', '47563', TRUE, ARRAY_CONSTRUCT('Ultrasound', 'HIDA Scan', 'Surgical Consultation'), OBJECT_CONSTRUCT('max_amount', 20000), '2024-01-01', '2024-12-31';
+
+INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_required, documentation_requirements, coverage_limitations, effective_date, expiration_date) 
+SELECT 'POL005', 'PAY006', '99214', FALSE, ARRAY_CONSTRUCT(), OBJECT_CONSTRUCT('max_visits_per_year', 12), '2024-01-01', '2024-12-31';
 
 -- ===================================================================
 -- SAMPLE DATA - PROCESSED DATA TABLES
@@ -82,18 +108,36 @@ INSERT INTO payer_policies (policy_id, payer_id, procedure_code, prior_auth_requ
 
 USE SCHEMA PROCESSED_DATA;
 
--- Insert sample risk scores
-INSERT INTO claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) VALUES
-('CLM001', 0.234, ARRAY_CONSTRUCT('Prior Auth Approved', 'Provider History Good'), 0.8742, 'v1.2.1', FALSE, 0.00),
-('CLM002', 0.156, ARRAY_CONSTRUCT('Government Payer', 'Simple Procedure'), 0.9123, 'v1.2.1', FALSE, 0.00),
-('CLM003', 0.678, ARRAY_CONSTRUCT('High Value Claim', 'Prior Auth Pending'), 0.7865, 'v1.2.1', TRUE, 5780.00),
-('CLM004', 0.089, ARRAY_CONSTRUCT('Routine Visit', 'Low Amount'), 0.9456, 'v1.2.1', FALSE, 0.00),
-('CLM005', 0.892, ARRAY_CONSTRUCT('Missing Documentation', 'Historical Denials'), 0.8234, 'v1.2.1', TRUE, 1440.00),
-('CLM006', 0.123, ARRAY_CONSTRUCT('Prior Auth Approved', 'Medicare'), 0.8967, 'v1.2.1', FALSE, 0.00),
-('CLM007', 0.345, ARRAY_CONSTRUCT('Medicaid', 'Mental Health'), 0.7654, 'v1.2.1', FALSE, 0.00),
-('CLM008', 0.234, ARRAY_CONSTRUCT('Prior Auth Approved', 'High Volume Provider'), 0.8876, 'v1.2.1', FALSE, 0.00),
-('CLM009', 0.445, ARRAY_CONSTRUCT('Cancer Diagnosis', 'Imaging'), 0.8123, 'v1.2.1', TRUE, 475.00),
-('CLM010', 0.167, ARRAY_CONSTRUCT('Emergency', 'Medicare'), 0.9234, 'v1.2.1', FALSE, 0.00);
+-- Insert sample risk scores (using individual INSERT statements to avoid VALUES clause limitations)
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM001', 0.234, ARRAY_CONSTRUCT('Prior Auth Approved', 'Provider History Good'), 0.8742, 'v1.2.1', FALSE, 0.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM002', 0.156, ARRAY_CONSTRUCT('Government Payer', 'Simple Procedure'), 0.9123, 'v1.2.1', FALSE, 0.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM003', 0.678, ARRAY_CONSTRUCT('High Value Claim', 'Prior Auth Pending'), 0.7865, 'v1.2.1', TRUE, 5780.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM004', 0.089, ARRAY_CONSTRUCT('Routine Visit', 'Low Amount'), 0.9456, 'v1.2.1', FALSE, 0.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM005', 0.892, ARRAY_CONSTRUCT('Missing Documentation', 'Historical Denials'), 0.8234, 'v1.2.1', TRUE, 1440.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM006', 0.123, ARRAY_CONSTRUCT('Prior Auth Approved', 'Medicare'), 0.8967, 'v1.2.1', FALSE, 0.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM007', 0.345, ARRAY_CONSTRUCT('Medicaid', 'Mental Health'), 0.7654, 'v1.2.1', FALSE, 0.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM008', 0.234, ARRAY_CONSTRUCT('Prior Auth Approved', 'High Volume Provider'), 0.8876, 'v1.2.1', FALSE, 0.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM009', 0.445, ARRAY_CONSTRUCT('Cancer Diagnosis', 'Imaging'), 0.8123, 'v1.2.1', TRUE, 475.00;
+
+INSERT INTO PROCESSED_DATA.claim_risk_scores (claim_id, denial_probability, risk_factors, confidence_score, model_version, intervention_recommended, estimated_savings) 
+SELECT 'CLM010', 0.167, ARRAY_CONSTRUCT('Emergency', 'Medicare'), 0.9234, 'v1.2.1', FALSE, 0.00;
 
 -- Insert high-risk alerts
 INSERT INTO high_risk_alerts (claim_id, risk_score, alert_type, priority_level, alert_message, assigned_to) VALUES
@@ -101,11 +145,15 @@ INSERT INTO high_risk_alerts (claim_id, risk_score, alert_type, priority_level, 
 ('CLM005', 0.892, 'DOCUMENTATION_MISSING', 'CRITICAL', 'Imaging claim missing required documentation - high denial risk', 'Documentation Team'),
 ('CLM009', 0.445, 'DIAGNOSIS_REVIEW', 'MEDIUM', 'Cancer-related imaging may need additional clinical correlation', 'Clinical Review Team');
 
--- Insert interventions
-INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) VALUES
-('CLM003', 'EXPEDITE_PRIOR_AUTH', PARSE_JSON('{"action": "Contact payer for expedited review", "contact_method": "phone"}'), 'ML Model v1.2.1', 'APPLIED', 'IN_PROGRESS'),
-('CLM005', 'REQUEST_DOCUMENTATION', PARSE_JSON('{"action": "Request missing radiology report from provider", "documents_needed": "Clinical indication, comparison studies"}'), 'ML Model v1.2.1', 'APPLIED', 'COMPLETED'),
-('CLM009', 'CLINICAL_REVIEW', PARSE_JSON('{"action": "Route to clinical team for medical necessity review", "reviewer": "Dr. Smith"}'), 'ML Model v1.2.1', 'PENDING', NULL);
+-- Insert interventions (using individual INSERT statements to avoid VALUES clause limitations)
+INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
+SELECT 'CLM003', 'EXPEDITE_PRIOR_AUTH', OBJECT_CONSTRUCT('action', 'Contact payer for expedited review', 'contact_method', 'phone'), 'ML Model v1.2.1', 'APPLIED', 'IN_PROGRESS';
+
+INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
+SELECT 'CLM005', 'REQUEST_DOCUMENTATION', OBJECT_CONSTRUCT('action', 'Request missing radiology report from provider', 'documents_needed', 'Clinical indication, comparison studies'), 'ML Model v1.2.1', 'APPLIED', 'COMPLETED';
+
+INSERT INTO claim_interventions (claim_id, intervention_type, intervention_details, recommended_by, status, outcome) 
+SELECT 'CLM009', 'CLINICAL_REVIEW', OBJECT_CONSTRUCT('action', 'Route to clinical team for medical necessity review', 'reviewer', 'Dr. Smith'), 'ML Model v1.2.1', 'PENDING', NULL;
 
 -- ===================================================================
 -- SAMPLE DATA - ENHANCED ANALYTICS TABLES
