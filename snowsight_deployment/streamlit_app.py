@@ -138,6 +138,10 @@ def get_provider_performance():
         st.error(f"Error fetching provider performance: {str(e)}")
         return pd.DataFrame()
 
+def safe_int_convert(value, default=0):
+    """Safely convert a value to integer, handling NaN values"""
+    return int(value) if pd.notna(value) else default
+
 # ===================================================================
 # MODULE FUNCTIONS
 # ===================================================================
@@ -157,7 +161,7 @@ def display_denial_prevention_module():
             st.markdown('<div class="metric-card">', unsafe_allow_html=True)
             st.metric(
                 label="Claims Processed Today",
-                value=f"{int(metrics['TOTAL_CLAIMS_TODAY']):,}",
+                value=f"{safe_int_convert(metrics['TOTAL_CLAIMS_TODAY']):,}",
                 delta=f"+{np.random.randint(10, 50)}"
             )
             st.markdown('</div>', unsafe_allow_html=True)
@@ -177,7 +181,7 @@ def display_denial_prevention_module():
             st.markdown('<div class="metric-card high-risk">', unsafe_allow_html=True)
             st.metric(
                 label="High Risk Alerts",
-                value=f"{int(metrics['HIGH_RISK_CLAIMS']):,}",
+                value=f"{safe_int_convert(metrics['HIGH_RISK_CLAIMS']):,}",
                 delta=f"+{np.random.randint(0, 10)}"
             )
             st.markdown('</div>', unsafe_allow_html=True)
@@ -186,7 +190,7 @@ def display_denial_prevention_module():
             st.markdown('<div class="metric-card">', unsafe_allow_html=True)
             st.metric(
                 label="Interventions Recommended",
-                value=f"{int(metrics['INTERVENTIONS_RECOMMENDED']):,}",
+                value=f"{safe_int_convert(metrics['INTERVENTIONS_RECOMMENDED']):,}",
                 delta=f"+{np.random.randint(0, 5)}"
             )
             st.markdown('</div>', unsafe_allow_html=True)
@@ -199,9 +203,9 @@ def display_denial_prevention_module():
             risk_data = {
                 'Risk Level': ['High Risk (>70%)', 'Medium Risk (30-70%)', 'Low Risk (<30%)'],
                 'Count': [
-                    int(metrics['HIGH_RISK_CLAIMS']),
-                    int(metrics['MEDIUM_RISK_CLAIMS']),
-                    int(metrics['LOW_RISK_CLAIMS'])
+                    safe_int_convert(metrics['HIGH_RISK_CLAIMS']),
+                    safe_int_convert(metrics['MEDIUM_RISK_CLAIMS']),
+                    safe_int_convert(metrics['LOW_RISK_CLAIMS'])
                 ]
             }
             
